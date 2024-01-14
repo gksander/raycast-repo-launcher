@@ -7,7 +7,8 @@ import {
   useRemoveLaunchCommand,
   useRemoveProjectsRoot,
 } from "../configApi";
-import { NewLaunchCommand } from "./NewLaunchCommand";
+import { UpsertLaunchCommand } from "./UpsertLaunchCommand";
+import { getAvatarIcon } from "@raycast/utils";
 
 export function SettingsView() {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ export function SettingsView() {
 
   return (
     <List>
-      <List.Section title="Projects Roots">
+      <List.Section title="Projects Directories" subtitle="Directores that contain your projects (e.g. `~/Code`)">
         {[
           projectsRoots.map((dir) => (
             <List.Item
@@ -54,13 +55,18 @@ export function SettingsView() {
         />
       </List.Section>
 
-      <List.Section title="Commands">
+      <List.Section title="Launch Commands" subtitle="Applications or commands that will launch your project">
         {launchCommands.map((cmd) => (
           <List.Item
             title={cmd.title}
-            key={cmd.title}
+            key={cmd.id}
+            icon={getAvatarIcon(cmd.title)}
             actions={
               <ActionPanel>
+                <Action
+                  title={`Edit ${cmd.title}`}
+                  onAction={() => navigation.push(<UpsertLaunchCommand existingCommand={cmd} />)}
+                />
                 <Action title="Move to Top" onAction={() => moveLaunchCommand(cmd, "top")} />
                 <Action
                   title="Move Up"
@@ -73,7 +79,7 @@ export function SettingsView() {
                   onAction={() => moveLaunchCommand(cmd, "down")}
                 />
                 <Action title="Move to Bottom" onAction={() => moveLaunchCommand(cmd, "bottom")} />
-                <Action title={`Remove ${cmd.title}`} onAction={() => removeLaunchCommand(cmd)} />
+                <Action title={`Remove ${cmd.title}`} onAction={() => removeLaunchCommand(cmd.id)} />
               </ActionPanel>
             }
           />
@@ -84,7 +90,7 @@ export function SettingsView() {
           icon={{ source: Icon.PlusCircle, tintColor: "raycast-green" }}
           actions={
             <ActionPanel>
-              <Action title="New Launch Command" onAction={() => navigation.push(<NewLaunchCommand />)} />
+              <Action title="New Launch Command" onAction={() => navigation.push(<UpsertLaunchCommand />)} />
             </ActionPanel>
           }
         />

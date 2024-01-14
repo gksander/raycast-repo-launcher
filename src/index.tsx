@@ -1,7 +1,7 @@
 import * as React from "react";
 import { readdir } from "node:fs/promises";
 import { useLaunchCommands, useProjectsRoots } from "./configApi";
-import { useCachedPromise } from "@raycast/utils";
+import { getAvatarIcon, useCachedPromise } from "@raycast/utils";
 import { Action, ActionPanel, List, open } from "@raycast/api";
 import path from "node:path";
 import { promisify } from "node:util";
@@ -60,7 +60,7 @@ function ProjectActions({ item }: { item: ProjectItem }) {
     initialData: "",
   });
 
-  const openInGitHubSite = (path: string) => open(`${repoUrl}${path}`);
+  const getGitHubUrl = (path: string) => `${repoUrl}${path}`;
 
   return (
     <ActionPanel title={item.name}>
@@ -69,6 +69,7 @@ function ProjectActions({ item }: { item: ProjectItem }) {
           <Action
             title={`Open with ${cmd.title}`}
             key={cmd.title}
+            icon={getAvatarIcon(cmd.title)}
             onAction={() => {
               if (cmd.command.startsWith("bundleId:")) {
                 open(getProjectDir(item), cmd.command.split("bundleId:")[1]);
@@ -83,11 +84,11 @@ function ProjectActions({ item }: { item: ProjectItem }) {
 
       {repoUrl && (
         <ActionPanel.Section title="GitHub.com Actions">
-          <Action title="Repo Site" onAction={() => openInGitHubSite("/")} />
-          <Action title="Issues" onAction={() => openInGitHubSite("/issues")} />
-          <Action title="Pull Requests" onAction={() => openInGitHubSite("/pulls")} />
-          <Action title="GH Actions" onAction={() => openInGitHubSite("/actions")} />
-          <Action title="Compare Branches" onAction={() => openInGitHubSite("/compare")} />
+          <Action.OpenInBrowser title="Repo Site" url={getGitHubUrl("/")} />
+          <Action.OpenInBrowser title="Issues" url={getGitHubUrl("/issues")} />
+          <Action.OpenInBrowser title="Pull Requests" url={getGitHubUrl("/pulls")} />
+          <Action.OpenInBrowser title="Actions" url={getGitHubUrl("/actions")} />
+          <Action.OpenInBrowser title="Compare Branches" url={getGitHubUrl("/compare")} />
         </ActionPanel.Section>
       )}
 

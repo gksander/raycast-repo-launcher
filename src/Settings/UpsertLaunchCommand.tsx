@@ -1,8 +1,8 @@
 import { Action, ActionPanel, Form, getApplications, useNavigation } from "@raycast/api";
 import { FormValidation, useCachedPromise, useForm } from "@raycast/utils";
-import { useAddLaunchCommand } from "../configApi";
+import { LaunchCommand, useAddLaunchCommand, useEditLaunchCommand } from "../configApi";
 
-export function NewLaunchCommand() {
+export function UpsertLaunchCommand({ existingCommand }: { existingCommand?: LaunchCommand }) {
   const navigation = useNavigation();
 
   const { isLoading, data } = useCachedPromise(getApplications, [], {
@@ -10,15 +10,25 @@ export function NewLaunchCommand() {
     initialData: [],
   });
   const addLaunchCommand = useAddLaunchCommand();
+  const editLaunchCommand = useEditLaunchCommand();
 
   const { handleSubmit, itemProps, setValue, setValidationError } = useForm<FormValues>({
     onSubmit: ({ command, title }) => {
-      addLaunchCommand({ title, command });
+      if (existingCommand) {
+        editLaunchCommand(existingCommand.id, { command, title });
+      } else {
+        addLaunchCommand({ title, command });
+      }
+
       navigation.pop();
     },
     validation: {
       title: FormValidation.Required,
       command: FormValidation.Required,
+    },
+    initialValues: {
+      title: existingCommand?.title ?? "",
+      command: existingCommand?.command ?? "",
     },
   });
 
@@ -31,7 +41,10 @@ export function NewLaunchCommand() {
         </ActionPanel>
       }
     >
-      <Form.Description title="New Launch Command" text="..." />
+      <Form.Description
+        title="New Launch Command"
+        text="Select an application to launch your projects (such as an IDE), or enter a raw command to execute in the project's root."
+      />
 
       <Form.Dropdown
         id="bundleId"

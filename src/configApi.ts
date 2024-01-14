@@ -1,4 +1,5 @@
 import { useCachedState } from "@raycast/utils";
+import { nanoid } from "nanoid";
 
 const CONFIG_KEYS = {
   PROJECTS_ROOTS: "PROJECTS_ROOTS",
@@ -23,7 +24,8 @@ export const useRemoveProjectsRoot = () => {
   };
 };
 
-type LaunchCommand = {
+export type LaunchCommand = {
+  id: string;
   title: string;
   command: string;
 };
@@ -33,17 +35,26 @@ export const useLaunchCommands = () => useCachedState<LaunchCommand[]>(CONFIG_KE
 export const useAddLaunchCommand = () => {
   const [, setLaunchCommands] = useCachedState<LaunchCommand[]>(CONFIG_KEYS.LAUNCH_COMMANDS, []);
 
-  // TODO: uniqBy bundleId
-  return (cmd: LaunchCommand) => {
-    setLaunchCommands((prev) => [...prev, cmd]);
+  return (cmd: Omit<LaunchCommand, "id">) => {
+    setLaunchCommands((prev) => [...prev, { ...cmd, id: nanoid() }]);
+  };
+};
+
+export const useEditLaunchCommand = () => {
+  const [, setLaunchCommands] = useCachedState<LaunchCommand[]>(CONFIG_KEYS.LAUNCH_COMMANDS, []);
+
+  return (id: string, updatedCommand: Partial<LaunchCommand>) => {
+    setLaunchCommands((prev) => {
+      return [...prev].map((c) => (c.id === id ? { ...c, ...updatedCommand } : c));
+    });
   };
 };
 
 export const useRemoveLaunchCommand = () => {
   const [, setLaunchCommands] = useCachedState<LaunchCommand[]>(CONFIG_KEYS.LAUNCH_COMMANDS, []);
 
-  return (commandToDelete: LaunchCommand) => {
-    setLaunchCommands((prev) => prev.filter((cmd) => cmd.command !== commandToDelete.command));
+  return (id: string) => {
+    setLaunchCommands((prev) => prev.filter((cmd) => cmd.id !== id));
   };
 };
 
