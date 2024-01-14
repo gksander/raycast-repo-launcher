@@ -16,6 +16,13 @@
       "subtitle": "Launch a repo",
       "description": "Launch a software repository in various applications or open on GitHub.com.",
       "mode": "view"
+    },
+    {
+      "name": "settings",
+      "title": "Launch Repo: Settings",
+      "subtitle": "Configure the extension",
+      "description": "Configure the extension.",
+      "mode": "view"
     }
   ],
   "dependencies": {
