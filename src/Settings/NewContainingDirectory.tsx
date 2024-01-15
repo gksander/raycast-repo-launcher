@@ -1,14 +1,14 @@
 import { Action, ActionPanel, Form, useNavigation } from "@raycast/api";
 import { useAddProjectsRoot } from "../configApi";
 
-export function NewProjectsRoot() {
+export function NewContainingDirectory() {
   // const addProjectsRoot = useAddProjectsRoot();
   const navigation = useNavigation();
   const addProjectsRoot = useAddProjectsRoot();
 
   return (
     <Form
-      navigationTitle="New Projects Root"
+      navigationTitle="New Containing Directory"
       actions={
         <ActionPanel>
           <Action.SubmitForm
@@ -22,8 +22,8 @@ export function NewProjectsRoot() {
       }
     >
       <Form.Description
-        title="Select a projects root"
-        text="Select a directory to add to the list of projects roots."
+        title="Select a Containing Directory"
+        text="Select a directory to add to the list of containing directories. This is a directory that contains your projects (e.g. `~/Code`)."
       />
       <Form.FilePicker
         id="dir"

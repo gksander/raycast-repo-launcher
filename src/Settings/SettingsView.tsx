@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
-import { NewProjectsRoot } from "./NewProjectsRoot";
+import { NewContainingDirectory } from "./NewContainingDirectory";
 import {
   useLaunchCommands,
   useMoveLaunchCommand,
@@ -22,7 +22,7 @@ export function SettingsView() {
 
   return (
     <List>
-      <List.Section title="Projects Directories" subtitle="Directores that contain your projects (e.g. `~/Code`)">
+      <List.Section title="Containing Directories" subtitle="Directores that contain your projects (e.g. `~/Code`)">
         {[
           projectsRoots.map((dir) => (
             <List.Item
@@ -32,7 +32,7 @@ export function SettingsView() {
               actions={
                 <ActionPanel>
                   <Action.ShowInFinder title="Show in Finder" path={dir} />
-                  <Action title="Remove Projects Root" onAction={() => removeProjectsRoot(dir)} />
+                  <Action title="Remove Containing Directory" onAction={() => removeProjectsRoot(dir)} />
                 </ActionPanel>
               }
             />
@@ -40,14 +40,14 @@ export function SettingsView() {
         ]}
 
         <List.Item
-          title="New projects root"
+          title="New Containing Directory"
           icon={{ source: Icon.PlusCircle, tintColor: "raycast-green" }}
           actions={
             <ActionPanel>
               <Action
-                title="New Projects Root"
+                title="New Containing Directory"
                 onAction={() => {
-                  navigation.push(<NewProjectsRoot />);
+                  navigation.push(<NewContainingDirectory />);
                 }}
               />
             </ActionPanel>
@@ -86,7 +86,7 @@ export function SettingsView() {
         ))}
 
         <List.Item
-          title="New launch command"
+          title="New Launch Command"
           icon={{ source: Icon.PlusCircle, tintColor: "raycast-green" }}
           actions={
             <ActionPanel>
