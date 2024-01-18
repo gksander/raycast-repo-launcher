@@ -1,10 +1,9 @@
 import { Action, ActionPanel, Form, useNavigation } from "@raycast/api";
-import { useAddProjectsRoot } from "../configApi";
+import { useAddContainingDirectory } from "../configApi";
 
 export function NewContainingDirectory() {
-  // const addProjectsRoot = useAddProjectsRoot();
   const navigation = useNavigation();
-  const addProjectsRoot = useAddProjectsRoot();
+  const addContainingDirectory = useAddContainingDirectory();
 
   return (
     <Form
@@ -14,7 +13,7 @@ export function NewContainingDirectory() {
           <Action.SubmitForm
             title="Submit"
             onSubmit={async ({ dir: [dir] }: { dir: [string] }) => {
-              addProjectsRoot(dir);
+              addContainingDirectory(dir);
               navigation.pop();
             }}
           />

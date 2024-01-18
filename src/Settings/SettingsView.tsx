@@ -3,9 +3,9 @@ import { NewContainingDirectory } from "./NewContainingDirectory";
 import {
   useLaunchCommands,
   useMoveLaunchCommand,
-  useProjectsRoots,
+  useContainingDirectories,
   useRemoveLaunchCommand,
-  useRemoveProjectsRoot,
+  useRemoveContainingDirectory,
 } from "../configApi";
 import { UpsertLaunchCommand } from "./UpsertLaunchCommand";
 import { getAvatarIcon } from "@raycast/utils";
@@ -13,8 +13,8 @@ import { getAvatarIcon } from "@raycast/utils";
 export function SettingsView() {
   const navigation = useNavigation();
 
-  const projectsRoots = useProjectsRoots();
-  const removeProjectsRoot = useRemoveProjectsRoot();
+  const containingDirectories = useContainingDirectories();
+  const removeContainingDirectories = useRemoveContainingDirectory();
 
   const launchCommands = useLaunchCommands();
   const removeLaunchCommand = useRemoveLaunchCommand();
@@ -24,7 +24,7 @@ export function SettingsView() {
     <List>
       <List.Section title="Containing Directories" subtitle="Directores that contain your projects (e.g. `~/Code`)">
         {[
-          projectsRoots.map((dir) => (
+          containingDirectories.map((dir) => (
             <List.Item
               key={dir}
               title={dir}
@@ -32,7 +32,7 @@ export function SettingsView() {
               actions={
                 <ActionPanel>
                   <Action.ShowInFinder title="Show in Finder" path={dir} />
-                  <Action title="Remove Containing Directory" onAction={() => removeProjectsRoot(dir)} />
+                  <Action title={`Remove ${dir}`} onAction={() => removeContainingDirectories(dir)} />
                 </ActionPanel>
               }
             />

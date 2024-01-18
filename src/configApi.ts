@@ -2,22 +2,22 @@ import { useCachedState } from "@raycast/utils";
 import { nanoid } from "nanoid";
 
 const CONFIG_KEYS = {
-  PROJECTS_ROOTS: "PROJECTS_ROOTS",
+  CONTAINING_DIRECTORIES: "CONTAINING_DIRECTORIES",
   LAUNCH_COMMANDS: "LAUNCH_COMMANDS",
 } as const;
 
-export const useProjectsRoots = () => useCachedState<string[]>(CONFIG_KEYS.PROJECTS_ROOTS, [])[0];
+export const useContainingDirectories = () => useCachedState<string[]>(CONFIG_KEYS.CONTAINING_DIRECTORIES, [])[0];
 
-export const useAddProjectsRoot = () => {
-  const [, setProjectsRoots] = useCachedState<string[]>(CONFIG_KEYS.PROJECTS_ROOTS, []);
+export const useAddContainingDirectory = () => {
+  const [, setProjectsRoots] = useCachedState<string[]>(CONFIG_KEYS.CONTAINING_DIRECTORIES, []);
 
   return (dir: string) => {
     setProjectsRoots((prev) => [...new Set([...prev, dir])]);
   };
 };
 
-export const useRemoveProjectsRoot = () => {
-  const [, setProjectsRoots] = useCachedState<string[]>(CONFIG_KEYS.PROJECTS_ROOTS, []);
+export const useRemoveContainingDirectory = () => {
+  const [, setProjectsRoots] = useCachedState<string[]>(CONFIG_KEYS.CONTAINING_DIRECTORIES, []);
 
   return (dir: string) => {
     setProjectsRoots((prev) => prev.filter((p) => p !== dir));

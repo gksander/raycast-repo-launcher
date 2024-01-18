@@ -1,6 +1,6 @@
 import * as React from "react";
 import { readdir } from "node:fs/promises";
-import { useLaunchCommands, useProjectsRoots } from "./configApi";
+import { useLaunchCommands, useContainingDirectories } from "./configApi";
 import { getAvatarIcon, useCachedPromise } from "@raycast/utils";
 import { Action, ActionPanel, List, open } from "@raycast/api";
 import path from "node:path";
@@ -10,7 +10,7 @@ import { exec as _exec } from "node:child_process";
 const exec = promisify(_exec);
 
 export default function Command() {
-  const projectsRoots = useProjectsRoots();
+  const projectsRoots = useContainingDirectories();
 
   const { isLoading, data } = useCachedPromise(
     async () => {
