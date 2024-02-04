@@ -87,6 +87,7 @@ function ProjectActions({ item }: { item: ProjectItem }) {
           <Action.OpenInBrowser title="Repo Site" url={getGitHubUrl("/")} />
           <Action.OpenInBrowser title="Issues" url={getGitHubUrl("/issues")} />
           <Action.OpenInBrowser title="Pull Requests" url={getGitHubUrl("/pulls")} />
+          <Action.OpenInBrowser title="Commits" url={getGitHubUrl("/commits")} />
           <Action.OpenInBrowser title="Actions" url={getGitHubUrl("/actions")} />
           <Action.OpenInBrowser title="Compare Branches" url={getGitHubUrl("/compare")} />
         </ActionPanel.Section>
